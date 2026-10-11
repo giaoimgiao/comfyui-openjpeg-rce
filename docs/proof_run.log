@@ -1,0 +1,8 @@
+[i] blob=0xd79d30 fake_type=0xd79d70
+[i] build: OK len=14130482 p1=10717229 pB=2 pC=3412414 S_N=0xa38b50
+[i] 相邻对 126/128
+[i] 洞已放好，解码...
+[i] 解码完成
+[+] HIT tuple@0xe6fb30  item2 = blob(0xd79d30) ✓
+uid=0(root) gid=0(root) groups=0(root),3001(android_group_3001),3002(android_group_3002),3003(android_group_3003),9997(android_group_9997),20302(android_group_20302),50302(android_group_50302)
+sh: 1: jd: not found
