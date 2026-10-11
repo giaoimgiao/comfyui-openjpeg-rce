@@ -4,7 +4,11 @@
 
 | 项 | 要求 |
 |---|---|
-| 系统 | Linux（本仓库实测：Android 手机上的 Ubuntu 容器 / aarch64） |
+| 系统 | Linux / Ubuntu / aarch64） |
+|Debian | Ubuntu 官方包 PIE（打不了）|
+|Debian | Ubuntu 的 python3.x-nopie 包 非 PIE（能打）|
+|源码自编译（默认） 看编译参数|
+|某些云镜像 | 容器 | 可能非 PIE|
 | Python | 3.12 |
 | 关键依赖 | **Pillow 12.3.0**（其自带的 vendored `openjpeg 2.5.4`） |
 | 目标解释器 | **非 PIE**（`readelf -h $(which python3) \| grep Type` → `EXEC`） |
@@ -13,7 +17,7 @@
 检查命令：
 
 ```bash
-python3 -c "import PIL; print('Pillow', PIL.__version__)"      # 期望 12.3.0
+python3 -c "import PIL; print('Pillow', PIL.__version__)"      
 readelf -h $(readlink -f $(which python3)) | grep Type          # 期望 EXEC（非 PIE）
 ```
 
@@ -94,27 +98,8 @@ sh: 1: jd: not found
 for k in range(1, 2):     # 只跑 k=1（实测命中值）
 ```
 
----
 
-## 3. 截图怎么弄（交给设备主人）
-
-任选一种：
-
-```bash
-# 方式 A：命令行截图（需要 root / Shizuku）
-screencap -p /sdcard/proof.png
-
-# 方式 B：手机自带截屏（同时按 电源+音量下），再裁剪
-```
-
-然后：
-
-1. 把图片放进仓库 `docs/` 目录，命名 **`proof.png`**；
-2. README 里已经预留了引用：`![实测截图](docs/proof.png)` —— 放进去就会自动显示 ✓
-
----
-
-## 4. ⚠️ 复现必看的两个坑（我自己踩过，代价很大）
+## 3.复现
 
 ### 坑 1：脚本名不能和 Python 标准库重名
 
@@ -122,7 +107,7 @@ screencap -p /sdcard/proof.png
 而 Python 的 `random` 模块里有 `from bisect import bisect`
 ⇒ 因为"脚本所在目录"在搜索路径最前面，**标准库被我的脚本顶掉**
 ⇒ 每次 `import random`（进而 `tempfile`、进而 `PIL`）都会去执行我那个脚本
-⇒ 它内部又会不断开子进程 ⇒ **短时间起了 442 个进程 ⇒ 内存耗尽 ⇒ 手机把桌面/QQ 都杀了**。
+⇒ 它内部又会不断开子进程 ⇒ **短时间起了 442 个进程 ⇒ 内存耗尽 ⇒ 把桌面/QQ 都杀了**。
 
 **规避**：跑之前清掉同名脚本，并用 `PYTHONSAFEPATH=1`（禁止把脚本目录加进搜索路径）。
 
