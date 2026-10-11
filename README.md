@@ -1,4 +1,4 @@
-# JPEG2000 越界写 → 完整 RCE 流程
+# ComfyUI 链式 RCE：一张 11MB 的 JPEG2000 图片打穿 Pillow → OpenJPEG
 
 依赖链是：
 ```
