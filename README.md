@@ -19,7 +19,7 @@ ComfyUI (开源AI生图工作流)
                              →  程序对该元素做 repr()/str()  →  system("命令") 被执行
 ```
 
-实测输出（真实运行，非模拟，原始日志见 `docs/proof_run.log`）：
+实测输出（原始日志见 `docs/proof_run.log`）：
 
 ```
 [i] 相邻对 126/128
