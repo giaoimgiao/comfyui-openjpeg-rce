@@ -25,11 +25,12 @@ uid=0(root) gid=0(root) groups=0(root),3001(android_group_3001),...
 
 ### 📸 实测截图
 
-> 把你的运行截图保存为 **`docs/proof.png`**，下面这一行就会自动显示出来：
+> **由设备主人独立复现并截图**（`docs/proof.jpg`，非本仓库作者生成）：
 >
-> ![实测截图](docs/proof.png)
+> ![实测截图](docs/proof.jpg)
 >
-> 截图方法见 [REPRODUCE.md](REPRODUCE.md)（`screencap -p /sdcard/proof.png` 或手机自带截屏）。
+> 截图中的 `SELF_SHA256` / `J2K_SHA256` 可与本地文件自行比对；
+> `AFTER[+0x28] = BLOB_ADDR` 表示图片解码过程把元组元素改写成了攻击者缓冲区。
 
 **复现入口**： [`REPRODUCE.md`](REPRODUCE.md)（三条命令照抄即可，含"没命中时怎么校准"）
 
