@@ -183,3 +183,14 @@ python3 rce_blind.py          # 会打印 build 结果 / 相邻对 / 解码 / �
 
 本项目为**本地环境下的安全研究复现**，仅用于验证与修复该缺陷。
 请勿用于未授权的目标。作者不对任何滥用后果负责。
+
+---
+
+## 9. 相关仓库（姊妹项目）
+
+- **本仓库**：负责**更短的执行链** —— 图片改写元组元素指针 ⇒ 假类型 ⇒ `repr()` 即执行
+  （**一次解码**，**不需要 memoryview 元数据**）。
+- **姊妹仓库** [`openjpeg-j2k-oob-to-arb-rw`](https://github.com/giaoimgiao/openjpeg-j2k-oob-to-arb-rw)：
+  同一个漏洞、同一个写入原语的**通用原语路线** —— 把 victim 改造成 **memoryview**，
+  得到**任意读写**与**信息泄露（ASLR 归零）**（本仓库本身不含任意读写；远程打点时可先用它取地址）。
+- **两者差异对照与组合方式**见 [`RELATION.md`](https://github.com/giaoimgiao/comfyui-openjpeg-rce/blob/main/RELATION.md)。
